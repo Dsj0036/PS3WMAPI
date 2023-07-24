@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS3WMAPI", "PS3WMAPI\PS3WMAPI.csproj", "{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS3WMAPI Example", "PS3WMAPI Example\PS3WMAPI Example.csproj", "{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {343950D8-BD84-4D4E-8810-BC68B521275C}
+	EndGlobalSection
+EndGlobal

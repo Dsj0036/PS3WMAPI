@@ -1,0 +1,10 @@
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\obj\Debug\PS3WMAPI.csproj.AssemblyReference.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\obj\Debug\PS3WMAPI.csproj.CoreCompileInputs.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\bin\Debug\PS3WMAPI.dll
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\bin\Debug\PS3WMAPI.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\bin\Debug\HtmlAgilityPack.dll
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\bin\Debug\HtmlAgilityPack.xml
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\obj\Debug\PS3WMAPI.csproj.CopyComplete
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\obj\Debug\PS3WMAPI.dll
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI\obj\Debug\PS3WMAPI.pdb

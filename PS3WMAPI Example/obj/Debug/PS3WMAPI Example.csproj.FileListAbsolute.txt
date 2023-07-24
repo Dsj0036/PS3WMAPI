@@ -1,0 +1,17 @@
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\PS3WMAPI Example.exe.config
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\PS3WMAPI Example.exe
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\PS3WMAPI Example.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.csproj.AssemblyReference.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.csproj.SuggestedBindingRedirects.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI_Example.Form1.resources
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI_Example.Properties.Resources.resources
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.csproj.GenerateResource.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.csproj.CoreCompileInputs.cache
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.exe
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\PS3WMAPI.dll
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\PS3WMAPI.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\obj\Debug\PS3WMAPI Example.csproj.CopyComplete
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\HtmlAgilityPack.dll
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\visual\source\repos\PS3WMAPI\PS3WMAPI Example\bin\Debug\HtmlAgilityPack.xml
