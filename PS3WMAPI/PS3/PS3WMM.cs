@@ -138,150 +138,159 @@ public class PS3WMM
 
                 if (flag)
                 {
-
-                    var nodes = dec.Where((s) => (s.InnerText.Length > 3 & s.InnerHtml.Length < 100 & s.OuterStartIndex > 800) & s.Name != "#text").ToArray();
-                    var mem = nodes.Where((s) => (s.InnerHtml.EndsWith("KB ") || s.InnerHtml.EndsWith("(XMB)"))).ToArray().First();
-                    var hdd = nodes.Where((s) => s.InnerHtml.StartsWith("HDD")).ToArray().FirstOrDefault();
-                    var fan = nodes.Where((s) => s.InnerHtml.StartsWith("[FAN:")).ToArray().FirstOrDefault();
-                    var cpu = nodes.Where((s) => s.InnerHtml.StartsWith("CPU")).ToArray().FirstOrDefault();
-                    var isonxmb = mem.InnerHtml.EndsWith("(XMB)");
-                    _hrddsk = hdd.InnerText;
-                    _fan = fan.InnerText;
-                    _mem = mem.InnerText;
-                    string game = "XMB";
-                    if (nodes.Length > 4)
+                    var decs = dec.ToList();
+                    var nodes = decs.Where((s) => (s.InnerText.Length > 3 & s.InnerHtml.Length < 100 & s.OuterStartIndex > 800) & s.Name != "#text").ToArray();
+                    if (nodes == null)
                     {
-                        var gmregionnode = nodes.Where((s) => s.InnerText.Length == 9).FirstOrDefault();
-                        string gmregion = gmregionnode != null ? gmregionnode.InnerText : "";
-                        var caps = gmregion != null ? gmregion.Caps() : 0;
-                        var ingame = gmregion.Length == 9 & caps > 40;
-                        var startupTimeString = dec.Where((nd) => nd.InnerHtml.Contains("time.png") & nd.InnerHtml.Contains("<label title=\"Startup\"")).ToArray().LastOrDefault()?.InnerText.Trim();
-                        var playElapsedTimeNode = dec.Where((nd) => nd.Name == "label" & nd.GetAttributeValue("title", "") == "Play").ToArray().FirstOrDefault();
-                        string playElapsedTimeString = "";
-                        if (playElapsedTimeNode != null)
+                        throw new InvalidOperationException("Request results invalid. Parsing error. This is maybe because you have enabled SMAN GUI ");
+                    }
+                    else
+                    {
+                        var mem = nodes.Where((s) => (s.InnerHtml.EndsWith("KB ") || s.InnerHtml.EndsWith("(XMB)"))).ToArray().First();
+                        var hdd = nodes.Where((s) => s.InnerHtml.StartsWith("HDD")).ToArray().FirstOrDefault();
+                        var fan = nodes.Where((s) => s.InnerHtml.Contains("%")).ToArray().FirstOrDefault();
+                        var cpu = nodes.Where((s) => s.InnerHtml.StartsWith("CPU")).ToArray().FirstOrDefault();
+                        var fw = decs.Where((s) => s.OuterHtml.StartsWith("<a class=\"s\" href=\"/setup.ps3\">")).FirstOrDefault();
+                        var isonxmb = mem.InnerHtml.EndsWith("(XMB)");
+                        _hrddsk = hdd.InnerText;
+                        _fan = fan != null ? fan.InnerText : "";
+                        _mem = mem.InnerText;
+                        string game = "XMB";
+                        if (nodes.Length > 4)
                         {
-                            playElapsedTimeString = playElapsedTimeNode.ParentNode.InnerText.Split(' ').Reverse().ToArray()[1];
-                        }
-                        var userUrlNode = dec.Where((nd) => nd.GetAttributeValue("href", "").Contains("/home/")).FirstOrDefault();
-                        var userUrl = (userUrlNode != null & userUrlNode.Attributes.Count > 0 & userUrlNode.Attributes[0].Name == "href") ? userUrlNode.Attributes[0].Value : "";
-                        string localusername = "";
-                        string psnUserName = "";
-                        string GetPSNUsername(string ip, int userid)
-                        {
-                            string url = $"http://{ip}//dev_hdd0//home//000000{userid}//np_cache.dat";
-                            string value = new WebClient().DownloadString(url);
-                            value = value.Replace("?", "");
-                            value = value.Replace("b2pyps3", "[!END]");
-                            value = value.Normalize();
-                            value = value.Trim(new char[] { '{', '}', '?' });
-                            int indkey = value.IndexOf("\0\0\0\0\0");
-                            if (indkey == -1)
+                            var gmregionnode = nodes.Where((s) => s.InnerText.Length == 9).FirstOrDefault();
+                            string gmregion = gmregionnode != null ? gmregionnode.InnerText : "";
+                            var caps = gmregion != null ? gmregion.Caps() : 0;
+                            var ingame = gmregion.Length == 9 & caps > 40;
+                            var startupTimeString = dec.Where((nd) => nd.InnerHtml.Contains("time.png") & nd.InnerHtml.Contains("<label title=\"Startup\"")).ToArray().LastOrDefault()?.InnerText.Trim();
+                            var playElapsedTimeNode = dec.Where((nd) => nd.Name == "label" & nd.GetAttributeValue("title", "") == "Play").ToArray().FirstOrDefault();
+                            string playElapsedTimeString = "";
+                            if (playElapsedTimeNode != null)
                             {
-                                return "unknown";
+                                playElapsedTimeString = playElapsedTimeNode.ParentNode.InnerText.Split(' ').Reverse().ToArray()[1];
+                            }
+                            var userUrlNode = dec.Where((nd) => nd.GetAttributeValue("href", "").Contains("/home/")).FirstOrDefault();
+                            var userUrl = (userUrlNode != null & userUrlNode.Attributes.Count > 0 & userUrlNode.Attributes[0].Name == "href") ? userUrlNode.Attributes[0].Value : "";
+                            string localusername = "";
+                            string psnUserName = "";
+                            string GetPSNUsername(string ip, int userid)
+                            {
+                                string url = $"http://{ip}//dev_hdd0//home//000000{userid}//np_cache.dat";
+                                string value = new WebClient().DownloadString(url);
+                                value = value.Replace("?", "");
+                                value = value.Replace("b2pyps3", "[!END]");
+                                value = value.Normalize();
+                                value = value.Trim(new char[] { '{', '}', '?' });
+                                int indkey = value.IndexOf("\0\0\0\0\0");
+                                if (indkey == -1)
+                                {
+                                    return "unknown";
+                                }
+
+                                value = value.Substring(indkey + "\0\0\0\0\0".Length);
+                                value = value.Substring(0, value.IndexOf("\0\0\0\0\0"));
+                                return value;
                             }
 
-                            value = value.Substring(indkey + "\0\0\0\0\0".Length);
-                            value = value.Substring(0, value.IndexOf("\0\0\0\0\0"));
-                            return value;
-                        }
+                            if (userUrl != string.Empty)
+                            {
+                                var path = _url.Replace("/cpursx.ps3", userUrl);
+                                var lcusnmFn = path + "/localusername";
+                                try { localusername = Data.DownloadText(lcusnmFn); }
+                                catch { localusername = "404"; }
+                                _currentUserDir = path;
+                                var iusid = int.Parse(userUrl.Split('/').Reverse().First());
+                                psnUserName = GetPSNUsername(_ip, iusid);
+                            }
+                            else psnUserName = localusername;
+                            Time playElapsedTime = Time.Zero;
+                            if (playElapsedTimeString.Length > 2)
+                            {
+                                playElapsedTime = Time.FromString(playElapsedTimeString);
+                            }
+                            Time startupTime = new Time(TimeSpan.Parse(startupTimeString));
+                            // var elapsedPlayingTime = new Time(TimeSpan.Parse(playElapsedTimeString));
+                            Data.LogResultArray(gmregion,
+                                caps, ingame, startupTimeString,
+                                userUrl, localusername, psnUserName);
 
-                        if (userUrl != string.Empty)
-                        {
-                            var path = _url.Replace("/cpursx.ps3", userUrl);
-                            var lcusnmFn = path + "/localusername";
-                            try { localusername = Data.DownloadText(lcusnmFn); }
-                            catch { localusername = "404"; }
-                            _currentUserDir = path;
-                            var iusid = int.Parse(userUrl.Split('/').Reverse().First());
-                            psnUserName = GetPSNUsername(_ip, iusid);
-                        }
-                        else psnUserName = localusername;
-                        Time playElapsedTime = Time.Zero;
-                        if (playElapsedTimeString.Length > 2)
-                        {
-                            playElapsedTime = Time.FromString(playElapsedTimeString);
-                        }
-                        Time startupTime = new Time(TimeSpan.Parse(startupTimeString));
-                        // var elapsedPlayingTime = new Time(TimeSpan.Parse(playElapsedTimeString));
-                        Data.LogResultArray(gmregion,
-                            caps, ingame, startupTimeString,
-                            userUrl, localusername, psnUserName);
-
-                        if (ingame is true)
-                        {
-                            string[] trash = { "KLIC", "Artemis", "Reload", "Exit","syscalls",
+                            if (ingame is true)
+                            {
+                                string[] trash = { "KLIC", "Artemis", "Reload", "Exit","syscalls",
                                     "contenidos",
                                     "contents" };
-                            HtmlNode[] already = { mem, hdd, fan, cpu };
+                                HtmlNode[] already = { mem, hdd, fan, cpu };
 
-                            var trashn = nodes.Where((s) =>
-                            {
-                                foreach (string t in trash)
+                                var trashn = nodes.Where((s) =>
                                 {
-                                    if (s.InnerText.Contains(t)) return true;
-                                }
-                                return false;
-                            });
-                            var nda = nodes.ToList();
-                            foreach (var t in trashn)
-                            {
-                                nda.Remove(t);
-                            }
-                            foreach (var t in already)
-                            {
-                                nda.Remove(t);
-                            }
-                            var strs = nda.Where((n) => n.OuterStartIndex < 1600).ToList();
-
-                            if (strs.Count > 0)
-                            {
-                                if (strs.Count >= 4)
-                                {
-                                    var pid = strs[3].InnerText.Replace("pid=", "");
-                                    var pname = strs[1].InnerText;
-                                    var preg = strs[0];
-                                    string gamepath = string.Empty;
-                                    var gamepathNode = dec.Where((s) =>
+                                    foreach (string t in trash)
                                     {
-                                        return s.GetAttributeValue("src", "null") != "null" &
-                                        s.Name == "img" & s.GetAttributeValue("style", "null") == "position:relative;top:20px;";
-                                    }).ToArray().FirstOrDefault();
-                                    if (gamepathNode != null)
-                                    {
-                                        var src = gamepathNode.GetAttributeValue("src", string.Empty);
-                                        var srcNoName = src.Split('/').ToList();
-                                        srcNoName = srcNoName.GetRange(0, srcNoName.Count - 1);
-                                        gamepath = src != string.Empty ? string.Join(
-                                            "/", srcNoName.ToArray()) : "";
+                                        if (s.InnerText.Contains(t)) return true;
                                     }
-                                    _ingame = true;
-                                    game = pname;
-                                    _processExLocation = gamepath;
-                                    _currentProcessName = pname;
-                                    _processId = uint.Parse(pid);
-                                    _currentProcessTitleId = preg.InnerText;
-                                    Data.LogResultArray(pid, pname, preg);
+                                    return false;
+                                });
+                                var nda = nodes.ToList();
+                                foreach (var t in trashn)
+                                {
+                                    nda.Remove(t);
+                                }
+                                foreach (var t in already)
+                                {
+                                    nda.Remove(t);
+                                }
+                                var strs = nda.Where((n) => n.OuterStartIndex < 1600).ToList();
+
+                                if (strs.Count > 0)
+                                {
+                                    if (strs.Count >= 4)
+                                    {
+                                        var pid = strs[3].InnerText.Replace("pid=", "");
+                                        var pname = strs[1].InnerText;
+                                        var preg = strs[0];
+                                        string gamepath = string.Empty;
+                                        var gamepathNode = dec.Where((s) =>
+                                        {
+                                            return s.GetAttributeValue("src", "null") != "null" &
+                                            s.Name == "img" & s.GetAttributeValue("style", "null") == "position:relative;top:20px;";
+                                        }).ToArray().FirstOrDefault();
+                                        if (gamepathNode != null)
+                                        {
+                                            var src = gamepathNode.GetAttributeValue("src", string.Empty);
+                                            var srcNoName = src.Split('/').ToList();
+                                            srcNoName = srcNoName.GetRange(0, srcNoName.Count - 1);
+                                            gamepath = src != string.Empty ? string.Join(
+                                                "/", srcNoName.ToArray()) : "";
+                                        }
+                                        _ingame = true;
+                                        game = pname;
+                                        _processExLocation = gamepath;
+                                        _currentProcessName = pname;
+                                        _processId = uint.Parse(pid);
+                                        _currentProcessTitleId = preg.InnerText;
+                                        Data.LogResultArray(pid, pname, preg);
+                                    }
+                                    else
+                                    {
+                                        _currentProcessName = "xross";
+                                        _currentProcessTitleId = "xross0000";
+                                        _processId = 0000;
+                                    }
                                 }
                                 else
                                 {
-                                    _currentProcessName = "xross";
-                                    _currentProcessTitleId = "xross0000";
-                                    _processId = 0000;
                                 }
                             }
                             else
                             {
+                                _ingame = false;
                             }
+                            _currentUserPsn = psnUserName;
+                            _currentUser = localusername;
+                            _playingTime = playElapsedTime;
+                            _startupTime = startupTime;
                         }
-                        else
-                        {
-                            _ingame = false;
-                        }
-                        _currentUserPsn = psnUserName;
-                        _currentUser = localusername;
-                        _playingTime = playElapsedTime;
-                        _startupTime = startupTime;
                     }
+                   
                 }
                 else
                 {

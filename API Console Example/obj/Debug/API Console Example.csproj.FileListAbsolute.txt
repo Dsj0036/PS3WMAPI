@@ -1,0 +1,13 @@
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\API Console Example.exe.config
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\API Console Example.exe
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\API Console Example.pdb
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\PS3WMAPI.dll
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\HtmlAgilityPack.dll
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\PS3WMAPI.pdb
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\bin\Debug\HtmlAgilityPack.xml
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\obj\Debug\API Console Example.csproj.AssemblyReference.cache
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\obj\Debug\API Console Example.csproj.CoreCompileInputs.cache
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\obj\Debug\API Console Example.csproj.CopyComplete
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\obj\Debug\API Console Example.exe
+C:\Users\root\source\repos\PS3WMAPI\API Console Example\obj\Debug\API Console Example.pdb

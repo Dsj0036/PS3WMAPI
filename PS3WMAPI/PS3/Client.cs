@@ -19,6 +19,12 @@ namespace PS3WMAPI.PS3
 {
     public class Client : IDisposable
     {
+        public enum RealtimeConnectionState
+        {
+            NotCompatibleCFW,
+            ConnectionFailed,
+            ConnectionEstablished,
+        }
         TimeSpan _runtime;
         string _address;
         PS3WMM _wmserv;
@@ -26,6 +32,7 @@ namespace PS3WMAPI.PS3
         PS3HDD _data;
         bool _isCon;
         string _favname;
+        bool _discon = false;
         int _timeout;
         bool _inited;
         bool _parseData;
@@ -55,8 +62,10 @@ namespace PS3WMAPI.PS3
         /// </summary>
         public bool Ready
         {
-            get => _inited && _wmserv != null && _psmserv != null && _isCon && _runtime != null;
+            get => _inited && _wmserv != null && _psmserv != null&& new Ping().Send(_address,600).Status == IPStatus.Success && _runtime != null;
         }
+        RealtimeConnectionState _mstate = RealtimeConnectionState.ConnectionFailed;
+        public RealtimeConnectionState MState { get => _mstate; }
         /// <summary>
         /// Server runtime elapsed.
         /// </summary>
@@ -95,6 +104,13 @@ namespace PS3WMAPI.PS3
         /// <param name="timeout">Connection timeout integet. Def: 3000</param>
         public Client(string address, string name = "PS3", int timeout = 3000, bool parseDatabase = false)
         {
+            var ping = new Ping();
+            var reply = ping.Send(address, 1000);
+            if (reply.Status != IPStatus.Success)
+            {
+                throw new PingException("Connection unreachable " + reply.Status);
+            }
+            ping.Dispose();
             _address = address;
             _favname = name;
             _timeout = timeout;
@@ -119,7 +135,6 @@ namespace PS3WMAPI.PS3
                     _wmserv.Notification($"★ Client {_favname} attached ({r.RoundtripTime}ms).", WmmIcons.wifi, 0);
                 });
                 _counter = new System.Timers.Timer();
-                Threaded(ManagerApiInitialization);
                 if (_parseData)
                 {
                     _wmserv.Notification($"★ Client {_favname} is retrieved your data.\nPlease wait.", WmmIcons.directory, 9);
@@ -127,8 +142,11 @@ namespace PS3WMAPI.PS3
                     {
                         Debug.WriteLine("Threaded content reading started.");
                         _data = PS3HDD.Fetch(this, OnProgressReport);
+                        Thread.Sleep(1000);
+                        Threaded(ManagerApiInitialization);
                     });
                 }
+                else Threaded(ManagerApiInitialization);
                 return true;
             }
             else
@@ -154,6 +172,7 @@ namespace PS3WMAPI.PS3
                     {
                         RoundtripTime = (int)fetch.RoundtripTime;
                     }
+                    
                     _wmserv.Retrieve((s, e) => Event(OnUpdateReceived, _wmserv), (s, e) => Event(OnStateChanged, e));
                 }
                 else exNotInit();
@@ -177,22 +196,53 @@ namespace PS3WMAPI.PS3
         /// </summary>
         void ManagerApiInitialization()
         {
-            _counter.Interval = 1000;
-            _counter.Elapsed += OnHeartbeat;
-            _counter.Start();
-            _psmserv = new PS3MAPI();
-            _runtime = new TimeSpan();
-            _inited = _psmserv.ConnectTarget(_address, 7887);
-            if (_inited is true) { Event(OnInitializationFinished); }
+            try
+            {
 
+                _counter.Interval = 1000;
+                _counter.Elapsed += OnHeartbeat;
+                _counter.Start();
+                _psmserv = new PS3MAPI();
+                _runtime = new TimeSpan();
+                _inited = _psmserv.ConnectTarget(_address, 7887);
+                if (_inited) { _mstate = RealtimeConnectionState.ConnectionEstablished; }
+            }
+            catch (Exception ex) {
+
+                _mstate = RealtimeConnectionState.ConnectionFailed;
+                if (ex is SocketException sex)
+                {
+                    if (sex.SocketErrorCode == SocketError.ConnectionRefused)
+                    {
+                        _mstate = RealtimeConnectionState.NotCompatibleCFW;
+                    }
+                }
+            }
+            Event(OnInitializationFinished);
         }
 
         private void OnHeartbeat(object sender, System.Timers.ElapsedEventArgs e)
         {
-            _runtime.Add(new TimeSpan(0, 0, 1));
-            _ticks++;
-            _isCon = _psmserv.IsConnected;
-            Event(OnClientHeartbeat, _ticks);
+            var reply = ServerResult();
+            
+            if (reply.Status != IPStatus.Success)
+            {
+                OnStateChanged?.Invoke(this, _isCon = false);
+                _discon = true;
+            }
+            else
+            {
+                 if (_isCon is false && _discon is true)
+                {
+                    OnStateChanged?.Invoke(this, true);
+                    this.UpdateFromServer();
+                    _discon = false;
+                }
+                _runtime.Add(new TimeSpan(0, 0, 1));
+                _ticks++;
+                _isCon = _psmserv.IsConnected;
+                Event(OnClientHeartbeat, _ticks);
+            }
         }
 
         void Threaded(Action e)

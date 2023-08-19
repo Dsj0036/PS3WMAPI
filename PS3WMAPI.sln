@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS3WMAPI", "PS3WMAPI\PS3WMA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS3WMAPI Example", "PS3WMAPI Example\PS3WMAPI Example.csproj", "{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API Console Example", "API Console Example\API Console Example.csproj", "{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE1FCEEA-5AB2-4159-95C3-768C97EBCCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

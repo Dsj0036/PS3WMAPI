@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace PS3WMAPI_Example
@@ -17,6 +18,11 @@ namespace PS3WMAPI_Example
             _client.OnUpdateReceived += _client_OnUpdateReceived;
             _client.OnProgressReport += _client_OnProgressReport;
             _client.OnClientHeartbeat += _client_OnClientHeartbeat;
+            _client.OnInitializationFinished += (s, se) =>
+            {
+
+                Debug.WriteLine("Initialization finished. {0} | {1}", _client.RunTime.ToString("hh\\:mm"), _client.MState);
+            };
             ButtonClient.Enabled = false;
             ButtonConnect.Enabled = true;
         }

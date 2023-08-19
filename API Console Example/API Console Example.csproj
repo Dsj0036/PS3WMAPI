@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BAB2AA5F-3C05-41EE-8801-B953BFA13DD8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PS3WMAPI</RootNamespace>
-    <AssemblyName>PS3WMAPI</AssemblyName>
+    <ProjectGuid>{8AC066AC-B45F-4ABF-AA0B-AA21A29AD701}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>API_Console_Example</RootNamespace>
+    <AssemblyName>API Console Example</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,12 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.11.50.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.50\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,32 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PS3\Client.cs" />
-    <Compile Include="PS3\Database.cs" />
-    <Compile Include="PS3\Extended.cs" />
-    <Compile Include="PS3\FTP.cs" />
-    <Compile Include="PS3\PS3File.cs" />
-    <Compile Include="PS3\PS3HDD.cs" />
-    <Compile Include="PS3\Pair.cs" />
-    <Compile Include="PS3\PS3MAPI.cs" />
-    <Compile Include="PS3\Ps3ParamSfoParser.cs" />
-    <Compile Include="PS3\PS3RegRead.cs" />
-    <Compile Include="PS3\PS3REG %28xstroker%29\X360IO.cs" />
-    <Compile Include="PS3\PS3REG %28xstroker%29\X360Reader.cs" />
-    <Compile Include="PS3\PS3REG %28xstroker%29\X360Writer.cs" />
-    <Compile Include="PS3\PS3TitleId.cs" />
-    <Compile Include="PS3\PS3WMM.cs" />
-    <Compile Include="PS3\Time.cs" />
-    <Compile Include="PS3\Utils.cs" />
-    <Compile Include="PS3\WmmIcons.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="VSThemeFile1.vstheme">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PS3WMAPI\PS3WMAPI.csproj">
+      <Project>{bab2aa5f-3c05-41ee-8801-b953bfa13dd8}</Project>
+      <Name>PS3WMAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
